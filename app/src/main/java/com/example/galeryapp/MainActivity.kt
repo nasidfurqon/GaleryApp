@@ -4,13 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.galeryapp.ui.theme.GaleryAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,30 +27,63 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            GaleryAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+                GaleryAppPreview()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun GaleryApp() {
+    ImageText(ImageId = R.drawable.img_20240414_152331,
+        ImageDesc = R.string.name1,
+        NameId = R.string.name1,
+        PlaceId = R.string.place1,
+    YearId = R.string.year1,
+    {1},
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.Center))
 }
-
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun ImageText(ImageId: Int,
+              ImageDesc: Int,
+              NameId: Int,
+              PlaceId: Int,
+              YearId: Int,
+              currentImage: ()-> Unit,
+              modifier: Modifier = Modifier
+              ){
+
+    Column(modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally){
+        Image(
+            painter = painterResource(ImageId),
+            contentDescription = stringResource(ImageDesc),
+            modifier = Modifier
+                .width(220.dp)
+        )
+        Spacer(
+            Modifier.height(60.dp)
+        )
+        Text(
+            text = stringResource(PlaceId),
+            fontSize = 20.sp
+        )
+        Spacer(
+            Modifier.height(20.dp)
+        )
+        Text(
+            text = stringResource(NameId, stringResource(YearId)),
+            modifier = Modifier
+                .align(alignment = Alignment.Start)
+        )
+    }
+}
+@Preview(showBackground = true,
+    showSystemUi = true)
+@Composable
+fun GaleryAppPreview() {
     GaleryAppTheme {
-        Greeting("Android")
+        GaleryApp()
     }
 }
