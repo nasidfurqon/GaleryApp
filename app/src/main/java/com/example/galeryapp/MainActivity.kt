@@ -16,9 +16,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,17 +46,38 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GaleryApp() {
-    ImageText(ImageId = R.drawable.img_20240414_152331,
-        ImageDesc = R.string.name1,
-        NameId = R.string.name1,
-        PlaceId = R.string.place1,
-    YearId = R.string.year1,
-    {1},
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center))
+fun GaleryApp(modifier: Modifier = Modifier) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Galery Application",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White
+                )
+            )
+        }
+        ) { paddingValue ->
+        ImageText(
+            ImageId = R.drawable.img_20240414_152331,
+            ImageDesc = R.string.name1,
+            NameId = R.string.name1,
+            PlaceId = R.string.place1,
+            YearId = R.string.year1,
+            { 1 },
+            modifier = Modifier
+                .padding(paddingValue)
+                .fillMaxSize()
+                .wrapContentSize(Alignment.Center)
+        )
+    }
 }
 @Composable
 fun ImageText(ImageId: Int,
