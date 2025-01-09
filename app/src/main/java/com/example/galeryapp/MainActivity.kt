@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,31 +65,37 @@ fun ImageText(ImageId: Int,
         horizontalAlignment = Alignment.CenterHorizontally){
         Surface(modifier = Modifier
 
-            .shadow(elevation = 5.dp),
+            .shadow(elevation = 10.dp),
             border = BorderStroke(1.dp, color = Color.Gray)){
             Image(
                 painter = painterResource(ImageId),
                 contentDescription = stringResource(ImageDesc),
                 modifier = Modifier
-                    .width(270.dp)
+                    .width(300.dp)
                     .padding(30.dp)
             )
         }
         Spacer(
-            Modifier.height(40.dp)
+            Modifier.height(50.dp)
         )
-        Text(
-            text = stringResource(PlaceId),
-            fontSize = 20.sp
-        )
-        Spacer(
-            Modifier.height(20.dp)
-        )
-        Text(
-            text = stringResource(NameId, stringResource(YearId)),
-            modifier = Modifier
-                .align(alignment = Alignment.Start)
-        )
+        Surface(modifier = Modifier.align(Alignment.Start)
+            .width(300.dp),
+            color = MaterialTheme.colorScheme.primaryContainer){
+            Column(modifier = Modifier.padding(10.dp)){
+                Text(
+                    text = stringResource(PlaceId),
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .align(alignment = Alignment.Start)
+                )
+                Text(
+                    text = stringResource(NameId, stringResource(YearId)),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .align(alignment = Alignment.Start)
+                )
+            }
+        }
     }
 }
 @Preview(showBackground = true,
