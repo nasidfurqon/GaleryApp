@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">GaleryApp</string>
     <string name="place1">Blue Ocean</string>
-    <string name="name1">Tirang Beach</string>
+    <string name="name1">Tirang Beach (%s)</string>
     <string name="year1">2024</string>
     <string name="place2">Sun Above the Sky</string>
-    <string name="name2">Pati</string>
+    <string name="name2">Pati (%s)</string>
     <string name="year2">2024</string>
     <string name="place3">Beautiful Beach</string>
-    <string name="name3">Bondo Beach</string>
+    <string name="name3">Bondo Beach (%s)</string>
     <string name="year3">2024</string>
 </resources>
