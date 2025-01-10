@@ -24,6 +24,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -48,7 +52,8 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GaleryApp(modifier: Modifier = Modifier) {
+fun GaleryApp() {
+    var recentImage by remember{ mutableStateOf(1)}
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -65,18 +70,53 @@ fun GaleryApp(modifier: Modifier = Modifier) {
             )
         }
         ) { paddingValue ->
-        ImageText(
-            ImageId = R.drawable.img_20240414_152331,
-            ImageDesc = R.string.name1,
-            NameId = R.string.name1,
-            PlaceId = R.string.place1,
-            YearId = R.string.year1,
-            { 1 },
-            modifier = Modifier
-                .padding(paddingValue)
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
-        )
+        when(recentImage){
+            1 -> ImageText(
+
+                  ImageId = R.drawable.img_20240414_152331,
+                ImageDesc = R.string.name1,
+                NameId = R.string.name1,
+                PlaceId = R.string.place1,
+                YearId = R.string.year1,
+                NextImage = {
+                    recentImage = 2
+                },
+                modifier = Modifier
+                    .padding(paddingValue)
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            )
+            2 -> ImageText(
+
+                ImageId = R.drawable.pxl_20240414_150923584,
+                ImageDesc = R.string.name2,
+                NameId = R.string.name2,
+                PlaceId = R.string.place2,
+                YearId = R.string.year2,
+                NextImage = {
+                    recentImage = 3
+                },
+                modifier = Modifier
+                    .padding(paddingValue)
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            )
+            3 -> ImageText(
+
+                ImageId = R.drawable.pxl_20240414_150931852,
+                ImageDesc = R.string.name3,
+                NameId = R.string.name3,
+                PlaceId = R.string.place3,
+                YearId = R.string.year3,
+                NextImage = {
+                    recentImage = 1
+                },
+                modifier = Modifier
+                    .padding(paddingValue)
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center)
+            )
+        }
     }
 }
 @Composable
@@ -85,7 +125,7 @@ fun ImageText(ImageId: Int,
               NameId: Int,
               PlaceId: Int,
               YearId: Int,
-              currentImage: ()-> Unit,
+              NextImage: ()-> Unit,
               modifier: Modifier = Modifier
               ){
 
@@ -136,7 +176,7 @@ fun ImageText(ImageId: Int,
                 Modifier.width(40.dp)
             )
             Button(modifier = Modifier.width(130.dp),
-                onClick = {}) {
+                onClick = NextImage) {
                 Text(
                     text = "Next"
                 )
