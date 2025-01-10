@@ -104,7 +104,7 @@ fun GaleryApp() {
                         .wrapContentSize(Alignment.Center)
                 )
 
-                else -> ImageText(
+                3 -> ImageText(
 
                     ImageId = R.drawable.pxl_20240414_150931852,
                     ImageDesc = R.string.name3,
@@ -120,7 +120,9 @@ fun GaleryApp() {
             Row(modifier = Modifier.padding(top = 20.dp)
                 .fillMaxWidth()
                 , horizontalArrangement = Arrangement.Center) {
-                Button(modifier = Modifier.width(130.dp), onClick = { recentImage-- }) {
+                Button(modifier = Modifier.width(130.dp),
+                    onClick = { if(recentImage > 0 ) recentImage--
+                    else recentImage = 3}) {
                     Text(
                         text = "Previous"
                     )
@@ -129,7 +131,8 @@ fun GaleryApp() {
                     Modifier.width(40.dp)
                 )
                 Button(modifier = Modifier.width(130.dp),
-                    onClick = { recentImage++ }) {
+                    onClick = { if (recentImage < 3) recentImage++
+                    else recentImage = 1}) {
                     Text(
                         text = "Next"
                     )
