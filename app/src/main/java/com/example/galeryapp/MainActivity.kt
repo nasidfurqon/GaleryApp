@@ -6,10 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -50,6 +52,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GaleryApp() {
@@ -70,52 +74,67 @@ fun GaleryApp() {
             )
         }
         ) { paddingValue ->
-        when(recentImage){
-            1 -> ImageText(
+        Column (modifier = Modifier
+            .padding(paddingValue)
+            .fillMaxSize()){
+            when (recentImage) {
+                1 -> ImageText(
 
-                  ImageId = R.drawable.img_20240414_152331,
-                ImageDesc = R.string.name1,
-                NameId = R.string.name1,
-                PlaceId = R.string.place1,
-                YearId = R.string.year1,
-                NextImage = {
-                    recentImage = 2
-                },
-                modifier = Modifier
-                    .padding(paddingValue)
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
-            )
-            2 -> ImageText(
+                    ImageId = R.drawable.img_20240414_152331,
+                    ImageDesc = R.string.name1,
+                    NameId = R.string.name1,
+                    PlaceId = R.string.place1,
+                    YearId = R.string.year1,
+                    modifier = Modifier
+                        .padding(paddingValue)
+                        .fillMaxWidth()
+                        .wrapContentSize(Alignment.Center)
+                )
 
-                ImageId = R.drawable.pxl_20240414_150923584,
-                ImageDesc = R.string.name2,
-                NameId = R.string.name2,
-                PlaceId = R.string.place2,
-                YearId = R.string.year2,
-                NextImage = {
-                    recentImage = 3
-                },
-                modifier = Modifier
-                    .padding(paddingValue)
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
-            )
-            3 -> ImageText(
+                2 -> ImageText(
 
-                ImageId = R.drawable.pxl_20240414_150931852,
-                ImageDesc = R.string.name3,
-                NameId = R.string.name3,
-                PlaceId = R.string.place3,
-                YearId = R.string.year3,
-                NextImage = {
-                    recentImage = 1
-                },
-                modifier = Modifier
-                    .padding(paddingValue)
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
-            )
+                    ImageId = R.drawable.pxl_20240414_150923584,
+                    ImageDesc = R.string.name2,
+                    NameId = R.string.name2,
+                    PlaceId = R.string.place2,
+                    YearId = R.string.year2,
+                    modifier = Modifier
+                        .padding(paddingValue)
+                        .fillMaxWidth()
+                        .wrapContentSize(Alignment.Center)
+                )
+
+                else -> ImageText(
+
+                    ImageId = R.drawable.pxl_20240414_150931852,
+                    ImageDesc = R.string.name3,
+                    NameId = R.string.name3,
+                    PlaceId = R.string.place3,
+                    YearId = R.string.year3,
+                    modifier = Modifier
+                        .padding(paddingValue)
+                        .fillMaxWidth()
+                        .wrapContentSize(Alignment.Center)
+                )
+            }
+            Row(modifier = Modifier.padding(top = 20.dp)
+                .fillMaxWidth()
+                , horizontalArrangement = Arrangement.Center) {
+                Button(modifier = Modifier.width(130.dp), onClick = { recentImage-- }) {
+                    Text(
+                        text = "Previous"
+                    )
+                }
+                Spacer(
+                    Modifier.width(40.dp)
+                )
+                Button(modifier = Modifier.width(130.dp),
+                    onClick = { recentImage++ }) {
+                    Text(
+                        text = "Next"
+                    )
+                }
+            }
         }
     }
 }
@@ -125,7 +144,6 @@ fun ImageText(ImageId: Int,
               NameId: Int,
               PlaceId: Int,
               YearId: Int,
-              NextImage: ()-> Unit,
               modifier: Modifier = Modifier
               ){
 
@@ -165,23 +183,7 @@ fun ImageText(ImageId: Int,
                 )
             }
         }
-        Row(modifier = Modifier.padding(top = 20.dp)){
-            Button(modifier = Modifier.width(130.dp)
-                , onClick = {}) {
-                Text(
-                    text = "Previous"
-                )
-            }
-            Spacer(
-                Modifier.width(40.dp)
-            )
-            Button(modifier = Modifier.width(130.dp),
-                onClick = NextImage) {
-                Text(
-                    text = "Next"
-                )
-            }
-        }
+
     }
 }
 @Preview(showBackground = true,
