@@ -14,12 +14,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -64,7 +69,7 @@ fun GaleryApp() {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Galery Application",
+                        text = "Gallery Application",
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -78,6 +83,26 @@ fun GaleryApp() {
         Column (modifier = Modifier
             .padding(paddingValue)
             .fillMaxSize()){
+            Surface(modifier = Modifier
+                .padding(start = 37.dp, top = 30.dp),
+                shape = RoundedCornerShape(50.dp),
+                color = MaterialTheme.colorScheme.primary) {
+                IconButton(
+                    onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier
+                            .size(25.dp)
+
+                    )
+                }
+            }
+            Spacer(
+                Modifier
+                    .height(50.dp)
+            )
             when (recentImage) {
                 1 -> ImageText(
 
@@ -87,7 +112,6 @@ fun GaleryApp() {
                     PlaceId = R.string.place1,
                     YearId = R.string.year1,
                     modifier = Modifier
-                        .padding(paddingValue)
                         .fillMaxWidth()
                         .wrapContentSize(Alignment.Center)
                 )
@@ -100,7 +124,6 @@ fun GaleryApp() {
                     PlaceId = R.string.place2,
                     YearId = R.string.year2,
                     modifier = Modifier
-                        .padding(paddingValue)
                         .fillMaxWidth()
                         .wrapContentSize(Alignment.Center)
                 )
@@ -113,7 +136,6 @@ fun GaleryApp() {
                     PlaceId = R.string.place3,
                     YearId = R.string.year3,
                     modifier = Modifier
-                        .padding(paddingValue)
                         .fillMaxWidth()
                         .wrapContentSize(Alignment.Center)
                 )
@@ -191,6 +213,8 @@ fun ImageText(ImageId: Int,
 
     }
 }
+
+
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
