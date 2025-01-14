@@ -7,7 +7,7 @@ import com.example.galeryapp.R
 data class Image(@StringRes val place: Int,
     @StringRes val name: Int,
     @StringRes val year: Int,
-    @DrawableRes val image: Int)
+    @DrawableRes val imageId: Int)
 
 val listOfImage  = mutableListOf(
     Image(R.string.place1, R.string.name1, R.string.year1, R.drawable.place1),

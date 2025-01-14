@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.galeryapp.Model.Image
 import com.example.galeryapp.ui.theme.GaleryAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -62,104 +64,86 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GaleryDisplay() {
+fun GaleryDisplay(modifier :Modifier = Modifier) {
     var recentImage by remember{ mutableStateOf(1)}
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Gallery Application",
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White
+    Column (modifier = modifier
+        .fillMaxSize()){
+        Surface(modifier = Modifier
+            .padding(start = 37.dp, top = 30.dp),
+            shape = RoundedCornerShape(50.dp),
+            color = MaterialTheme.colorScheme.primary) {
+            IconButton(
+                onClick = { }) {
+                Icon(
+                    imageVector = Icons.Filled.Close,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier
+                        .size(25.dp)
+
                 )
+            }
+        }
+        Spacer(
+            Modifier
+                .height(50.dp)
+        )
+        when (recentImage) {
+            1 -> ImageText(
+
+                ImageId = R.drawable.place1,
+                ImageDesc = R.string.name1,
+                NameId = R.string.name1,
+                PlaceId = R.string.place1,
+                YearId = R.string.year1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.Center)
+            )
+
+            2 -> ImageText(
+
+                ImageId = R.drawable.place2,
+                ImageDesc = R.string.name2,
+                NameId = R.string.name2,
+                PlaceId = R.string.place2,
+                YearId = R.string.year2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.Center)
+            )
+
+            3 -> ImageText(
+
+                ImageId = R.drawable.place3,
+                ImageDesc = R.string.name3,
+                NameId = R.string.name3,
+                PlaceId = R.string.place3,
+                YearId = R.string.year3,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.Center)
             )
         }
-        ) { paddingValue ->
-        Column (modifier = Modifier
-            .padding(paddingValue)
-            .fillMaxSize()){
-            Surface(modifier = Modifier
-                .padding(start = 37.dp, top = 30.dp),
-                shape = RoundedCornerShape(50.dp),
-                color = MaterialTheme.colorScheme.primary) {
-                IconButton(
-                    onClick = { }) {
-                    Icon(
-                        imageVector = Icons.Filled.Close,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .size(25.dp)
-
-                    )
-                }
+        Row(modifier = Modifier.padding(top = 20.dp)
+            .fillMaxWidth()
+            , horizontalArrangement = Arrangement.Center) {
+            Button(modifier = Modifier.width(130.dp),
+                onClick = { if(recentImage > 0 ) recentImage--
+                else recentImage = 3}) {
+                Text(
+                    text = "Previous"
+                )
             }
             Spacer(
-                Modifier
-                    .height(50.dp)
+                Modifier.width(40.dp)
             )
-            when (recentImage) {
-                1 -> ImageText(
-
-                    ImageId = R.drawable.place1,
-                    ImageDesc = R.string.name1,
-                    NameId = R.string.name1,
-                    PlaceId = R.string.place1,
-                    YearId = R.string.year1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
+            Button(modifier = Modifier.width(130.dp),
+                onClick = { if (recentImage < 3) recentImage++
+                else recentImage = 1}) {
+                Text(
+                    text = "Next"
                 )
-
-                2 -> ImageText(
-
-                    ImageId = R.drawable.place2,
-                    ImageDesc = R.string.name2,
-                    NameId = R.string.name2,
-                    PlaceId = R.string.place2,
-                    YearId = R.string.year2,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
-                )
-
-                3 -> ImageText(
-
-                    ImageId = R.drawable.place3,
-                    ImageDesc = R.string.name3,
-                    NameId = R.string.name3,
-                    PlaceId = R.string.place3,
-                    YearId = R.string.year3,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
-                )
-            }
-            Row(modifier = Modifier.padding(top = 20.dp)
-                .fillMaxWidth()
-                , horizontalArrangement = Arrangement.Center) {
-                Button(modifier = Modifier.width(130.dp),
-                    onClick = { if(recentImage > 0 ) recentImage--
-                    else recentImage = 3}) {
-                    Text(
-                        text = "Previous"
-                    )
-                }
-                Spacer(
-                    Modifier.width(40.dp)
-                )
-                Button(modifier = Modifier.width(130.dp),
-                    onClick = { if (recentImage < 3) recentImage++
-                    else recentImage = 1}) {
-                    Text(
-                        text = "Next"
-                    )
-                }
             }
         }
     }
@@ -215,13 +199,60 @@ fun ImageText(ImageId: Int,
 }
 
 @Composable
-fun ListImage(){
-
+fun ImageCard(imageId: Image, modifier: Modifier = Modifier){
+    Card(modifier = modifier,
+        shape = RoundedCornerShape(30.dp)){
+        Row(modifier = Modifier
+            .padding(10.dp)){
+            Image(
+                painter = painterResource(imageId.imageId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(65.dp)
+                    .clip(shape = RoundedCornerShape(25.dp))
+            )
+            Column (modifier = Modifier
+                .padding(10.dp)){
+                Text(
+                    text = stringResource(imageId.place),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = stringResource(imageId.year),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+            }
+        }
+    }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GaleryApp(){
-    ListImage()
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Gallery Application",
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = Color.White
+                )
+            )
+        }
+    ) { paddingValue ->
+        ImageCard(
+            Image(place = R.string.place1, R.string.name1,R.string.year1, imageId =  R.drawable.place1)
+            ,modifier = Modifier
+            .padding(paddingValue))
+    }
 }
 
 @Preview(showBackground = true,
