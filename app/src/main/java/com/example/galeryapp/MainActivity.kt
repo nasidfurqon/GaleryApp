@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -73,25 +74,9 @@ fun GaleryDisplay(modifier :Modifier = Modifier) {
     var recentImage by remember{ mutableStateOf(1)}
     Column (modifier = modifier
         .fillMaxSize()){
-        Surface(modifier = Modifier
-            .padding(start = 37.dp, top = 30.dp),
-            shape = RoundedCornerShape(50.dp),
-            color = MaterialTheme.colorScheme.primary) {
-            IconButton(
-                onClick = { }) {
-                Icon(
-                    imageVector = Icons.Filled.Close,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier
-                        .size(25.dp)
-
-                )
-            }
-        }
         Spacer(
             Modifier
-                .height(50.dp)
+                .height(30.dp)
         )
         when (recentImage) {
             1 -> ImageText(
@@ -204,8 +189,9 @@ fun ImageText(ImageId: Int,
 }
 
 @Composable
-fun ImageCard(imageId: Image, modifier: Modifier = Modifier){
-    Card(modifier = modifier,
+fun ImageCard(displayed : Boolean, imageId: Image, onClick:() -> Unit,modifier: Modifier = Modifier){
+    Card(modifier = modifier
+        .clickable {onClick()},
         shape = RoundedCornerShape(30.dp)){
         Row(modifier = Modifier
             .padding(10.dp)
@@ -238,14 +224,44 @@ fun ImageCard(imageId: Image, modifier: Modifier = Modifier){
 }
 
 @Composable
-fun ListImage(image: List<Image> ,modifier: Modifier = Modifier){
-    LazyColumn(modifier = modifier
-        .padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-        items(image) {
-            ImageCard(it, modifier = Modifier
-                .padding(bottom = 8.dp))
-        }
+fun ListImage(image: List<Image>, modifier: Modifier = Modifier){
+    var displayed by remember { mutableStateOf(false) }
+    if(displayed == false) {
+        LazyColumn(
+            modifier = modifier
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+        ) {
+            items(image) {
+                ImageCard(
+                    displayed = displayed,
+                    onClick = { displayed = !displayed },
+                    imageId = it,
+                    modifier = Modifier
+                        .padding(bottom = 12.dp))
+            }
 
+        }
+    }
+    else{
+        Column(modifier = modifier) {
+            Surface(modifier = Modifier
+                .padding(start = 40.dp, top = 30.dp),
+                shape = RoundedCornerShape(50.dp),
+                color = MaterialTheme.colorScheme.primary) {
+                IconButton(
+                    onClick = { displayed = !displayed}) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier
+                            .size(25.dp)
+
+                    )
+                }
+            }
+            GaleryDisplay()
+        }
     }
 }
 
