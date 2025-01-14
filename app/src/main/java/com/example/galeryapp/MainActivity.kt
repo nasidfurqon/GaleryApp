@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GaleryApp() {
+fun GaleryDisplay() {
     var recentImage by remember{ mutableStateOf(1)}
     Scaffold(
         topBar = {
@@ -106,7 +106,7 @@ fun GaleryApp() {
             when (recentImage) {
                 1 -> ImageText(
 
-                    ImageId = R.drawable.img_20240414_152331,
+                    ImageId = R.drawable.place1,
                     ImageDesc = R.string.name1,
                     NameId = R.string.name1,
                     PlaceId = R.string.place1,
@@ -118,7 +118,7 @@ fun GaleryApp() {
 
                 2 -> ImageText(
 
-                    ImageId = R.drawable.pxl_20240414_150923584,
+                    ImageId = R.drawable.place2,
                     ImageDesc = R.string.name2,
                     NameId = R.string.name2,
                     PlaceId = R.string.place2,
@@ -130,7 +130,7 @@ fun GaleryApp() {
 
                 3 -> ImageText(
 
-                    ImageId = R.drawable.pxl_20240414_150931852,
+                    ImageId = R.drawable.place3,
                     ImageDesc = R.string.name3,
                     NameId = R.string.name3,
                     PlaceId = R.string.place3,
@@ -214,6 +214,15 @@ fun ImageText(ImageId: Int,
     }
 }
 
+@Composable
+fun ListImage(){
+
+}
+
+@Composable
+fun GaleryApp(){
+    ListImage()
+}
 
 @Preview(showBackground = true,
     showSystemUi = true)
