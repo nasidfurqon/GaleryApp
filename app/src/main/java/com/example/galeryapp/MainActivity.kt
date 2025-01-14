@@ -199,7 +199,8 @@ fun ImageCard(displayed : Boolean, imageId: Image, onClick:() -> Unit,modifier: 
 
 @Composable
 fun ListImage(image: List<Image>, modifier: Modifier = Modifier){
-    var displayed by remember { mutableStateOf(true) }
+    var indexofImage by remember { mutableStateOf(1) }
+    var displayed by remember { mutableStateOf(false) }
         LazyColumn(
             modifier = modifier
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp)
@@ -208,7 +209,8 @@ fun ListImage(image: List<Image>, modifier: Modifier = Modifier){
                 if(displayed == false) {
                     ImageCard(
                         displayed = displayed,
-                        onClick = { displayed = !displayed },
+                        onClick = { displayed = !displayed
+                            indexofImage = image.indexOf(it)},
                         imageId = it,
                         modifier = Modifier
                             .padding(bottom = 12.dp)
@@ -232,7 +234,7 @@ fun ListImage(image: List<Image>, modifier: Modifier = Modifier){
                                 )
                             }
                         }
-                        GaleryDisplay(it)
+                        GaleryDisplay(image.get(indexofImage))
                     }
                 }
             }
