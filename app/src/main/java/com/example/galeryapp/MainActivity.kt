@@ -70,57 +70,31 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GaleryDisplay(modifier :Modifier = Modifier) {
-    var recentImage by remember{ mutableStateOf(1)}
+fun GaleryDisplay(image: Image,modifier :Modifier = Modifier) {
+    var recentImage by remember{ mutableStateOf(listOfImage.get(listOfImage.indexOf(image)))}
     Column (modifier = modifier
         .fillMaxSize()){
         Spacer(
             Modifier
                 .height(30.dp)
         )
-        when (recentImage) {
-            1 -> ImageText(
-
-                ImageId = R.drawable.place1,
-                ImageDesc = R.string.name1,
-                NameId = R.string.name1,
-                PlaceId = R.string.place1,
-                YearId = R.string.year1,
+        ImageText(
+            ImageId = recentImage.imageId,
+                ImageDesc = recentImage.name,
+                NameId = recentImage.name,
+                PlaceId = recentImage.place,
+                YearId = recentImage.year,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentSize(Alignment.Center)
-            )
-
-            2 -> ImageText(
-
-                ImageId = R.drawable.place2,
-                ImageDesc = R.string.name2,
-                NameId = R.string.name2,
-                PlaceId = R.string.place2,
-                YearId = R.string.year2,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.Center)
-            )
-
-            3 -> ImageText(
-
-                ImageId = R.drawable.place3,
-                ImageDesc = R.string.name3,
-                NameId = R.string.name3,
-                PlaceId = R.string.place3,
-                YearId = R.string.year3,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.Center)
-            )
-        }
+        )
+//
         Row(modifier = Modifier.padding(top = 20.dp)
             .fillMaxWidth()
             , horizontalArrangement = Arrangement.Center) {
             Button(modifier = Modifier.width(130.dp),
-                onClick = { if(recentImage > 0 ) recentImage--
-                else recentImage = 3}) {
+                onClick = {if(listOfImage.indexOf(recentImage) > 0 ) recentImage = listOfImage.get((listOfImage.indexOf(recentImage))-1)
+                else recentImage = listOfImage.get(listOfImage.size - 1)}) {
                 Text(
                     text = "Previous"
                 )
@@ -129,8 +103,8 @@ fun GaleryDisplay(modifier :Modifier = Modifier) {
                 Modifier.width(40.dp)
             )
             Button(modifier = Modifier.width(130.dp),
-                onClick = { if (recentImage < 3) recentImage++
-                else recentImage = 1}) {
+                onClick = { if(listOfImage.indexOf(recentImage) < listOfImage.size - 1) recentImage = listOfImage.get((listOfImage.indexOf(recentImage)) + 1)
+                else recentImage = listOfImage.get(0)}) {
                 Text(
                     text = "Next"
                 )
@@ -225,44 +199,45 @@ fun ImageCard(displayed : Boolean, imageId: Image, onClick:() -> Unit,modifier: 
 
 @Composable
 fun ListImage(image: List<Image>, modifier: Modifier = Modifier){
-    var displayed by remember { mutableStateOf(false) }
-    if(displayed == false) {
+    var displayed by remember { mutableStateOf(true) }
         LazyColumn(
             modifier = modifier
                 .padding(start = 16.dp, end = 16.dp, top = 16.dp)
         ) {
             items(image) {
-                ImageCard(
-                    displayed = displayed,
-                    onClick = { displayed = !displayed },
-                    imageId = it,
-                    modifier = Modifier
-                        .padding(bottom = 12.dp))
-            }
-
-        }
-    }
-    else{
-        Column(modifier = modifier) {
-            Surface(modifier = Modifier
-                .padding(start = 40.dp, top = 30.dp),
-                shape = RoundedCornerShape(50.dp),
-                color = MaterialTheme.colorScheme.primary) {
-                IconButton(
-                    onClick = { displayed = !displayed}) {
-                    Icon(
-                        imageVector = Icons.Filled.Close,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
+                if(displayed == false) {
+                    ImageCard(
+                        displayed = displayed,
+                        onClick = { displayed = !displayed },
+                        imageId = it,
                         modifier = Modifier
-                            .size(25.dp)
-
+                            .padding(bottom = 12.dp)
                     )
                 }
+                else{
+                    Column {
+                        Surface(modifier = Modifier
+                            .padding(start = 40.dp, top = 30.dp),
+                            shape = RoundedCornerShape(50.dp),
+                            color = MaterialTheme.colorScheme.primary) {
+                            IconButton(
+                                onClick = { displayed = !displayed}) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onPrimary,
+                                    modifier = Modifier
+                                        .size(25.dp)
+
+                                )
+                            }
+                        }
+                        GaleryDisplay(it)
+                    }
+                }
             }
-            GaleryDisplay()
+
         }
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
