@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -41,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.galeryapp.Model.Image
+import com.example.galeryapp.Model.listOfImage
 import com.example.galeryapp.ui.theme.GaleryAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -203,16 +208,20 @@ fun ImageCard(imageId: Image, modifier: Modifier = Modifier){
     Card(modifier = modifier,
         shape = RoundedCornerShape(30.dp)){
         Row(modifier = Modifier
-            .padding(10.dp)){
+            .padding(10.dp)
+            .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically){
             Image(
                 painter = painterResource(imageId.imageId),
                 contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(65.dp)
+                    .size(80.dp)
                     .clip(shape = RoundedCornerShape(25.dp))
+                    .aspectRatio(1f)
             )
             Column (modifier = Modifier
-                .padding(10.dp)){
+                .padding(start = 20.dp)){
                 Text(
                     text = stringResource(imageId.place),
                     style = MaterialTheme.typography.bodyLarge,
@@ -228,6 +237,17 @@ fun ImageCard(imageId: Image, modifier: Modifier = Modifier){
     }
 }
 
+@Composable
+fun ListImage(image: List<Image> ,modifier: Modifier = Modifier){
+    LazyColumn(modifier = modifier
+        .padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+        items(image) {
+            ImageCard(it, modifier = Modifier
+                .padding(bottom = 8.dp))
+        }
+
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -248,9 +268,7 @@ fun GaleryApp(){
             )
         }
     ) { paddingValue ->
-        ImageCard(
-            Image(place = R.string.place1, R.string.name1,R.string.year1, imageId =  R.drawable.place1)
-            ,modifier = Modifier
+        ListImage(listOfImage, modifier = Modifier
             .padding(paddingValue))
     }
 }
